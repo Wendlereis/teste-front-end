@@ -1,6 +1,6 @@
 {
-  "short_name": "YTClient",
-  "name": "YouTube Client",
+  "short_name": "iCasei: YouTube Client",
+  "name": "iCasei - Front-End Test: Youtube Client",
   "icons": [
     {
       "src": "favicon.ico",
@@ -11,5 +11,5 @@
   "start_url": "./index.html",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#2d2d2d"
 }
