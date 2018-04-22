@@ -16,7 +16,7 @@ class Search extends Component {
 
     this.state = {
       searchQuery: '',
-      items: [],
+      items: JSON.parse(localStorage.getItem('searchResult')),
       pagination: {},
       errorMessage: ''
     }
@@ -29,7 +29,7 @@ class Search extends Component {
       this.setState({ searchQuery, errorMessage: '' })
     }
     else {
-      this.setState({ searchQuery: '', items: []})
+      this.setState({ searchQuery: '', items: null})
     }
   }
 
@@ -37,18 +37,22 @@ class Search extends Component {
     let searchQuery =  this.state.searchQuery
 
     if(searchQuery === '') {
-      this.setState({ errorMessage: 'O campo de busca é obrigatório' })
+      this.setState({ errorMessage: 'Insira uma palavra-chave para buscar videos incríveis' })
       return
     }
 
     new YoutubeAPI().search(this.state.searchQuery).then(res => {
+      let strItems = JSON.stringify(res.items)
+      localStorage.setItem('searchResult', strItems)
+
       this.setState({ items: res.items, pagination: res.pagination })
+
     })
   }
 
   render() {
-    const isContentVisible = this.state.items.length > 0 ? true : false
-
+    const isContentVisible = this.state.items ? true : false
+    console.log(this.state.items)
     return (
       <div id="search">
         <div className="search">
@@ -90,7 +94,13 @@ class Search extends Component {
                 )
               })}
             </div>
-          </div> }
+          </div>}
+
+          {/* <div className="pagination">
+            <div>prev</div>
+            <div>{this.state.pagination.resultsPerPage} de {this.state.pagination.totalResults}</div>
+            <div>next</div>
+          </div> */}
         </div>
       </div>
     );
