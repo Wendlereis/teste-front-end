@@ -17,7 +17,8 @@ class Search extends Component {
     this.state = {
       searchQuery: '',
       items: [],
-      pagination: {}
+      pagination: {},
+      errorMessage: ''
     }
   }
 
@@ -25,14 +26,21 @@ class Search extends Component {
     let searchQuery = event.target.value
 
     if(searchQuery !== '') {
-      this.setState({ searchQuery })
+      this.setState({ searchQuery, errorMessage: '' })
     }
     else {
-      this.setState({ searchQuery: '', items: [] })
+      this.setState({ searchQuery: '', items: []})
     }
   }
 
   searchVideo() {
+    let searchQuery =  this.state.searchQuery
+
+    if(searchQuery === '') {
+      this.setState({ errorMessage: 'O campo de busca é obrigatório' })
+      return
+    }
+
     new YoutubeAPI().search(this.state.searchQuery).then(res => {
       this.setState({ items: res.items, pagination: res.pagination })
     })
@@ -48,6 +56,7 @@ class Search extends Component {
             <TextField
               className="searchbar-textfield"
               hintText="Pesquisar"
+              errorText={this.state.errorMessage}
               hintStyle={styles.hintStyle}
               inputStyle={styles.search}
               underlineStyle={styles.underlineStyle}
