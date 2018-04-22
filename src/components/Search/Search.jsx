@@ -35,7 +35,7 @@ class Search extends Component {
   }
 
   searchVideo() {
-    let searchQuery =  this.state.searchQuery
+    let searchQuery = this.state.searchQuery
 
     if(searchQuery === '') {
       this.setState({ errorMessage: 'Insira uma palavra-chave para buscar videos incríveis' })
@@ -63,7 +63,7 @@ class Search extends Component {
               hintText="Pesquisar"
               errorText={this.state.errorMessage}
               hintStyle={styles.hintStyle}
-              inputStyle={styles.search}
+              inputStyle={styles.searchbar}
               underlineStyle={styles.underlineStyle}
               underlineFocusStyle={styles.underlineFocusStyle}
               onChange={this.setSearchQuery.bind(this)}
@@ -96,12 +96,6 @@ class Search extends Component {
               })}
             </div>
           </div> }
-
-          {/* <div className="pagination">
-            <div>prev</div>
-            <div>{this.state.pagination.resultsPerPage} de {this.state.pagination.totalResults}</div>
-            <div>next</div>
-          </div> */}
         </div>
       </div>
     );
@@ -115,10 +109,8 @@ const styles = {
   underlineFocusStyle: {
     borderColor: red500,
   },
-  search: {
+  searchbar: {
     color: '#fff',
-    textTransform: 'uppercase',
-    textAlign: 'center',
     fontSize: '26px'
   },
   iconStyle: {
@@ -126,7 +118,8 @@ const styles = {
     margin:  '10px 10px'
   },
   hintStyle: {
-    color: '#fff'
+    color: '#fff',
+    fontSize: '18px'
   }
 };
 

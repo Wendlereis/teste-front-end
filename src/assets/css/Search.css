@@ -47,6 +47,12 @@
   margin: 5px;
 }
 
+@media (max-width: 684px) {
+  .content-items {
+    justify-content: center;
+  }
+}
+
 @media (max-width: 768px) {
   .searchbar-textfield {
     width: 500px !important;
