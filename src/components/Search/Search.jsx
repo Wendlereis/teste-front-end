@@ -16,6 +16,7 @@ class Search extends Component {
 
     this.state = {
       searchQuery: '',
+      resultTitle: localStorage.getItem('resultTitle'),
       items: JSON.parse(localStorage.getItem('searchResult')),
       pagination: {},
       errorMessage: ''
@@ -29,7 +30,7 @@ class Search extends Component {
       this.setState({ searchQuery, errorMessage: '' })
     }
     else {
-      this.setState({ searchQuery: '', items: null})
+      this.setState({ searchQuery: '', resultTitle: '', items: null})
     }
   }
 
@@ -41,18 +42,18 @@ class Search extends Component {
       return
     }
 
-    new YoutubeAPI().search(this.state.searchQuery).then(res => {
+    new YoutubeAPI().search(searchQuery).then(res => {
       let strItems = JSON.stringify(res.items)
       localStorage.setItem('searchResult', strItems)
+      localStorage.setItem('resultTitle', searchQuery)
 
-      this.setState({ items: res.items, pagination: res.pagination })
-
+      this.setState({ items: res.items, pagination: res.pagination, resultTitle: searchQuery })
     })
   }
 
   render() {
     const isContentVisible = this.state.items ? true : false
-    console.log(this.state.items)
+
     return (
       <div id="search">
         <div className="search">
@@ -76,7 +77,7 @@ class Search extends Component {
           </div>
 
           { isContentVisible && <div className="content">
-            <h2>Resultados para: {this.state.searchQuery}</h2>
+            <h2>Resultados para: {this.state.resultTitle}</h2>
 
             <div className="content-items">
               {this.state.items.map(item => {
@@ -94,7 +95,7 @@ class Search extends Component {
                 )
               })}
             </div>
-          </div>}
+          </div> }
 
           {/* <div className="pagination">
             <div>prev</div>

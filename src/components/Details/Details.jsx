@@ -5,6 +5,7 @@ import IconThumbUp from 'material-ui/svg-icons/action/thumb-up'
 import IconThumbDown from 'material-ui/svg-icons/action/thumb-down'
 import IconVisibility from 'material-ui/svg-icons/action/visibility'
 import IconNavigate from 'material-ui/svg-icons/image/navigate-before';
+import { redA700 } from 'material-ui/styles/colors'
 import YoutubeAPI from '../../service/YoutubeAPI'
 import '../../assets/css/Details.css'
 
@@ -31,7 +32,9 @@ class Details extends Component {
             <FlatButton
               label="Voltar"
               primary={true}
-              icon={<IconNavigate/>}
+              icon={<IconNavigate />}
+              style={styles.redButton}
+              labelStyle={styles.redButton}
               onClick={() => window.history.back()}/>
           </div>
 
@@ -72,6 +75,12 @@ class Details extends Component {
         <div>Dados nao encontrado</div>
       )
     );
+  }
+}
+
+const styles = {
+  redButton: {
+    color: redA700,
   }
 }
 
