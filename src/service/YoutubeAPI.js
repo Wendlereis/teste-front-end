@@ -20,8 +20,7 @@ export default class YoutubeAPI {
       }
     }).then(res => {
       return {
-        items: res.data.items,
-        pagination: res.data.pageInfo
+        items: res.data.items
       }
     }).catch(err => {
       console.error('Erro ao buscar lista de videos :(')

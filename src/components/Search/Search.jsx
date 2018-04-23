@@ -1,11 +1,14 @@
-import React, { Component } from 'react';
-import TextField from 'material-ui/TextField'
-import IconButton from 'material-ui/IconButton';
-import ActionSearch from 'material-ui/svg-icons/action/search'
-import { red500, redA700 } from 'material-ui/styles/colors'
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+
 import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
-import { Link } from 'react-router-dom'
+
+import TextField from 'material-ui/TextField'
+import IconButton from 'material-ui/IconButton';
+
+import ActionSearch from 'material-ui/svg-icons/action/search'
+import { red500, redA700 } from 'material-ui/styles/colors'
 
 import YoutubeAPI from '../../service/YoutubeAPI'
 import '../../assets/css/Search.css'
@@ -18,7 +21,6 @@ class Search extends Component {
       searchQuery: '',
       resultTitle: localStorage.getItem('resultTitle'),
       items: JSON.parse(localStorage.getItem('searchResult')),
-      pagination: {},
       errorMessage: ''
     }
   }
@@ -47,7 +49,7 @@ class Search extends Component {
       localStorage.setItem('searchResult', strItems)
       localStorage.setItem('resultTitle', searchQuery)
 
-      this.setState({ items: res.items, pagination: res.pagination, resultTitle: searchQuery })
+      this.setState({ items: res.items, resultTitle: searchQuery })
     })
   }
 
@@ -61,11 +63,11 @@ class Search extends Component {
             <TextField
               className="searchbar-textfield"
               hintText="Pesquisar"
-              errorText={this.state.errorMessage}
               hintStyle={styles.hintStyle}
               inputStyle={styles.searchbar}
               underlineStyle={styles.underlineStyle}
               underlineFocusStyle={styles.underlineFocusStyle}
+              errorText={this.state.errorMessage}
               onChange={this.setSearchQuery.bind(this)}
               value={this.state.searchQuery}/>
 

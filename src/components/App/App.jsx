@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { Switch, Route } from 'react-router-dom'
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import Search from '../Search/Search'
 import Details from '../Details/Details'
+
 import '../../assets/css/App.css'
-import { Switch, Route } from 'react-router-dom'
 
 class App extends Component {
   render() {

@@ -8,16 +8,16 @@
   justify-content: center;
 }
 
+.details .content-card {
+  width: 480px;
+}
+
 .title {
   padding: 0 60px;
 }
 
 .title h2 small {
   margin-left: 5px;
-}
-
-.details .content-card {
-  width: 480px;
 }
 
 .card-statistics {

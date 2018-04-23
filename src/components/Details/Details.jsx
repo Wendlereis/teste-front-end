@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+
 import FlatButton from 'material-ui/FlatButton'
-import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+
 import IconThumbUp from 'material-ui/svg-icons/action/thumb-up'
 import IconThumbDown from 'material-ui/svg-icons/action/thumb-down'
 import IconVisibility from 'material-ui/svg-icons/action/visibility'
 import IconNavigate from 'material-ui/svg-icons/image/navigate-before';
-import { redA700 } from 'material-ui/styles/colors'
+
 import YoutubeAPI from '../../service/YoutubeAPI'
 import '../../assets/css/Details.css'
 
@@ -33,8 +35,8 @@ class Details extends Component {
               label="Voltar"
               primary={true}
               icon={<IconNavigate />}
-              style={styles.redButton}
-              labelStyle={styles.redButton}
+              style={styles.whiteButton}
+              labelStyle={styles.whiteButton}
               onClick={() => window.history.back()}/>
           </div>
 
@@ -66,21 +68,21 @@ class Details extends Component {
 
                 <div className="card-statistics-item">
                   <IconThumbDown /> {this.state.item.statistics.dislikeCount}
-                  </div>
+                </div>
               </CardText>
             </Card>
           </div>
         </div>
       ) : (
-        <div>Dados nao encontrado</div>
+        <div>Dados não encontrados</div>
       )
     );
   }
 }
 
 const styles = {
-  redButton: {
-    color: redA700,
+  whiteButton: {
+    color: '#ffffff',
   }
 }
 
