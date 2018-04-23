@@ -18,12 +18,17 @@ export default class YoutubeAPI {
         key: this.apiKey,
         maxResults: 16
       }
-    }).then(res => {
+    })
+    .then(res => {
       return {
-        items: res.data.items
+        items: res.data.items,
+        pagination:  res.data.pageInfo,
+        nextPageToken: res.data.nextPageToken,
+        prevPageToken:  res.data.prevPageToken
       }
-    }).catch(err => {
-      console.error('Erro ao buscar lista de videos :(')
+    })
+    .catch(err => {
+      console.log('Erro ao buscar lista de videos :(', err)
     })
   }
 
@@ -38,6 +43,23 @@ export default class YoutubeAPI {
       return res.data.items[0]
     }).catch(err => {
       console.error(`Erro ao buscar o video ${id}`)
+    })
+  }
+
+  getPage(token, query) {
+    return axios.get(this.build('search'), {
+      params: {
+        part: 'id, snippet',
+        q: query,
+        type: 'video',
+        key: this.apiKey,
+        pageToke: token,
+        maxResults: 16
+      }
+    }).then(res => {
+      return res.data.items
+    }).catch(err => {
+      console.error(`Erro ao paginar`)
     })
   }
 }

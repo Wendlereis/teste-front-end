@@ -13,7 +13,7 @@ class App extends Component {
       <MuiThemeProvider>
          <Switch>
            <Route exact path="/" component={Search} />
-           <Route path="/Details/:id" component={Details} />
+           <Route path="/Details/:id" render={Details} />
          </Switch>
       </MuiThemeProvider>
     );

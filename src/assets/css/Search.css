@@ -47,6 +47,15 @@
   margin: 5px;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+}
+
+.pagination-indicator {
+  padding: 20px;
+}
+
 @media (max-width: 684px) {
   .content-items {
     justify-content: center;

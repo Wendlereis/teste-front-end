@@ -1,7 +1,9 @@
 import YoutubeAPI from '../../service/YoutubeAPI'
+import { shallow, mount, render } from 'enzyme'
 
 it('Call api to search videos by name', () => {
   let data = new YoutubeAPI().search('icasei').then(res => {
+    console.log('AQUI',res)
     return res
   })
 
