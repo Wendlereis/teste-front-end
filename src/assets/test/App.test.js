@@ -1,9 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import YoutubeAPI from '../../service/YoutubeAPI'
 
-it('complete a video search', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
-  ReactDOM.unmountComponentAtNode(div);
-});
+it('Call api to search videos by name', () => {
+  let data = new YoutubeAPI().search('icasei').then(res => {
+    return res
+  })
+
+  expect(data).toBeDefined()
+})
+
+it('Call api to search a video by its id', () => {
+  let data = new YoutubeAPI().searchById('GgUSmu1yMS4').then(res => {
+    return res
+  })
+
+  expect(data).toBeDefined()
+})
