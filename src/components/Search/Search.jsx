@@ -11,7 +11,10 @@ import IconButton from 'material-ui/IconButton';
 import ActionSearch from 'material-ui/svg-icons/action/search'
 import { red500, redA700 } from 'material-ui/styles/colors'
 
+import { connect } from 'react-redux'
+
 import YoutubeAPI from '../../service/YoutubeAPI'
+import { fetchVideos, fetchNextPage, fetchPrevPage } from '../../actions/videosActions'
 import '../../assets/css/Search.css'
 
 class Search extends Component {
@@ -21,13 +24,19 @@ class Search extends Component {
     this.state = {
       searchQuery: '',
       resultTitle: localStorage.getItem('resultTitle'),
-      items: JSON.parse(localStorage.getItem('searchResult')),
       errorMessage: '',
       currentPage: 1,
-      totalPages: 10000,
-      nextPageToken: '',
-      prevPageToken: ''
+      totalPages: 0
     }
+  }
+
+  componentWillReceiveProps({ videosInfo }) {
+    const { pagination } = videosInfo
+    const { totalResults, resultsPerPage } = pagination
+
+    const totalPages = Math.floor(totalResults / resultsPerPage)
+
+    this.setState({ totalPages })
   }
 
   setSearchQuery(event) {
@@ -42,51 +51,42 @@ class Search extends Component {
   }
 
   searchVideo() {
-    let searchQuery = this.state.searchQuery
+    const { fetchVideos } = this.props
+    const searchQuery = this.state.searchQuery
 
     if(searchQuery === '') {
       this.setState({ errorMessage: 'Insira uma palavra-chave para buscar videos incríveis' })
       return
     }
 
-    new YoutubeAPI().search(searchQuery).then(res => {
-      let strItems = JSON.stringify(res.items)
-      localStorage.setItem('searchResult', strItems)
-      localStorage.setItem('resultTitle', searchQuery)
+    fetchVideos(searchQuery)
+  }
 
-      let totalPages = res.pagination.totalResults / res.pagination.resultsPerPage
+  prevPage = () => {
+    const { searchQuery } = this.state
+    const { videosInfo, fetchPrevPage } = this.props
 
-      this.setState({
-        totalPages,
-        items: res.items,
-        resultTitle: searchQuery,
-        nextPageToken: res.nextPageToken,
-        prevPageToken: res.prevPageToken
-      })
+    fetchPrevPage(videosInfo.prevPageToken, searchQuery)
+
+    this.setState(prevState => {
+      return { currentPage: prevState.currentPage - 1 }
     })
   }
 
-  prevPage() {
-    const { searchQuery, prevPageToken } = this.state
+  nextPage = () => {
+    const { searchQuery } = this.state
+    const { videosInfo, fetchNextPage } = this.props
 
-    new YoutubeAPI().getPage(searchQuery, prevPageToken)
-    .then(res => {
-      console.log(res)
-      this.setState({ items: res.items })
-    })
-  }
+    fetchNextPage(videosInfo.nextPageToken, searchQuery)
 
-  nextPage() {
-    const { searchQuery, nextPageToken } = this.state
-
-    new YoutubeAPI().getPage(searchQuery, nextPageToken)
-    .then(items => {
-      this.setState({ items })
+    this.setState(prevState => {
+      return { currentPage: prevState.currentPage + 1 }
     })
   }
 
   render() {
-    const isContentVisible = this.state.items ? true : false
+    const { videosInfo } = this.props
+    const isContentVisible = videosInfo.items.length > 0
 
     return (
       <div id="search">
@@ -115,9 +115,9 @@ class Search extends Component {
               <h2>Resultados para: {this.state.resultTitle}</h2>
 
               <div className="content-items">
-                {this.state.items.map(item => {
+                {videosInfo.items.map(item => {
                   return(
-                    <Card className="content-card">
+                    <Card className="content-card" key={item.id.videoId}>
                       <CardMedia>
                         <img className="card-image" src={item.snippet.thumbnails.high.url} alt="" />
                       </CardMedia>
@@ -133,9 +133,9 @@ class Search extends Component {
             </div>
 
             <div className="pagination">
-              <FlatButton label="Prev" primary={true} onClick={this.prevPage.bind(this)} />
+              <FlatButton label="Prev" primary={true} onClick={this.prevPage} />
               <Paper children={<div>{this.state.currentPage} de {this.state.totalPages}</div>} zDepth={2} />
-              <FlatButton label="Next" primary={true} onClick={this.nextPage.bind(this)} />
+              <FlatButton label="Next" primary={true} onClick={this.nextPage} />
             </div>
           </div> }
         </div>
@@ -165,4 +165,14 @@ const styles = {
   }
 };
 
-export default Search;
+function mapStateToProps({ videosInfo }){
+  return {
+    videosInfo
+  }
+}
+
+export default connect(mapStateToProps,{
+  fetchVideos,
+  fetchNextPage,
+  fetchPrevPage
+})(Search);

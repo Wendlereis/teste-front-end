@@ -1,2 +1,4 @@
 /* Videos */
 export const FETCH_VIDEOS = 'FETCH_VIDEOS'
+export const FETCH_NEXT_VIDEOS = 'FETCH_NEXT_VIDEOS'
+export const FETCH_PREV_VIDEOS = 'FETCH_PREV_VIDEOS'

@@ -6,6 +6,10 @@ function videosReducer(state = { items: [] }, action) {
     switch(type){
         case ActionsTypes.FETCH_VIDEOS:
             return videosInfo
+        case ActionsTypes.FETCH_PREV_VIDEOS:
+            return videosInfo
+        case ActionsTypes.FETCH_NEXT_VIDEOS:
+            return videosInfo
         default:
             return state
     }
