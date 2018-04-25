@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { fetchVideoDetails } from '../../actions/videosActions'
 import FlatButton from 'material-ui/FlatButton'
-import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card'
-import IconThumbUp from 'material-ui/svg-icons/action/thumb-up'
-import IconThumbDown from 'material-ui/svg-icons/action/thumb-down'
-import IconVisibility from 'material-ui/svg-icons/action/visibility'
-import IconNavigate from 'material-ui/svg-icons/image/navigate-before';
+import IconNavigate from 'material-ui/svg-icons/image/navigate-before'
 
 import '../../assets/css/Details.css'
+
+import DetailedCard from '../Card/DetailedCard'
 
 class Details extends Component {
 
@@ -29,47 +27,16 @@ class Details extends Component {
     else {
       return (
         <div id="details">
-          <div className="title">
-            <FlatButton
-              label="Voltar"
-              primary={true}
-              icon={<IconNavigate />}
-              style={styles.whiteButton}
-              labelStyle={styles.whiteButton}
-              onClick={() => window.history.back()}/>
-          </div>
+          <FlatButton
+            label="Voltar"
+            primary={true}
+            icon={<IconNavigate />}
+            style={styles.whiteButton}
+            labelStyle={styles.whiteButton}
+            onClick={() => window.history.back()}/>
 
           <div className="details">
-            <Card className="content-card">
-              <CardMedia>
-                <div
-                  dangerouslySetInnerHTML={{__html: videoItem.player.embedHtml }}>
-                </div>
-              </CardMedia>
-
-              <CardTitle
-                className="card-text"
-                title={videoItem.snippet.title}
-                subtitle={videoItem.snippet.channelTitle} />
-
-              <CardText className="card-description">
-                {videoItem.snippet.description}
-              </CardText>
-
-              <CardText className="card-statistics">
-                <div className="card-statistics-item">
-                  <IconVisibility /> {videoItem.statistics.viewCount}
-                </div>
-
-                <div className="card-statistics-item">
-                  <IconThumbUp /> {videoItem.statistics.likeCount}
-                </div>
-
-                <div className="card-statistics-item">
-                  <IconThumbDown /> {videoItem.statistics.dislikeCount}
-                </div>
-              </CardText>
-            </Card>
+            <DetailedCard video={videoItem} />
           </div>
         </div>
       )

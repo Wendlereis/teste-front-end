@@ -8,7 +8,6 @@ import IconButton from 'material-ui/IconButton';
 import ActionSearch from 'material-ui/svg-icons/action/search'
 import { red500, redA700 } from 'material-ui/styles/colors'
 
-
 import '../../assets/css/Search.css'
 
 class Search extends Component {
