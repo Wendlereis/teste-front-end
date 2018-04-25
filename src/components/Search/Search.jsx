@@ -1,20 +1,15 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { fetchVideos, fetchNextPage, fetchPrevPage } from '../../actions/videosActions'
 import { Link } from 'react-router-dom'
-
 import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
 import Paper from 'material-ui/Paper'
-
 import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton';
-
 import ActionSearch from 'material-ui/svg-icons/action/search'
 import { red500, redA700 } from 'material-ui/styles/colors'
 
-import { connect } from 'react-redux'
-
-import YoutubeAPI from '../../service/YoutubeAPI'
-import { fetchVideos, fetchNextPage, fetchPrevPage } from '../../actions/videosActions'
 import '../../assets/css/Search.css'
 
 class Search extends Component {
@@ -23,7 +18,6 @@ class Search extends Component {
 
     this.state = {
       searchQuery: '',
-      resultTitle: localStorage.getItem('resultTitle'),
       errorMessage: '',
       currentPage: 1,
       totalPages: 0
@@ -39,23 +33,26 @@ class Search extends Component {
     this.setState({ totalPages })
   }
 
-  setSearchQuery(event) {
+  setSearchQuery = (event) => {
     let searchQuery = event.target.value
 
     if(searchQuery !== '') {
       this.setState({ searchQuery, errorMessage: '' })
     }
     else {
-      this.setState({ searchQuery: '', resultTitle: '', items: null})
+      this.setState({ searchQuery: '' })
     }
   }
 
-  searchVideo() {
+  searchVideo = () => {
     const { fetchVideos } = this.props
-    const searchQuery = this.state.searchQuery
+    const { searchQuery } = this.state
 
     if(searchQuery === '') {
-      this.setState({ errorMessage: 'Insira uma palavra-chave para buscar videos incríveis' })
+      this.setState({
+        errorMessage: 'Insira uma palavra-chave para buscar videos incríveis'
+      })
+
       return
     }
 
@@ -86,6 +83,7 @@ class Search extends Component {
 
   render() {
     const { videosInfo } = this.props
+    const { errorMessage, searchQuery, currentPage, totalPages } = this.state
     const isContentVisible = videosInfo.items.length > 0
 
     return (
@@ -99,27 +97,27 @@ class Search extends Component {
               inputStyle={styles.searchbar}
               underlineStyle={styles.underlineStyle}
               underlineFocusStyle={styles.underlineFocusStyle}
-              errorText={this.state.errorMessage}
-              onChange={this.setSearchQuery.bind(this)}
-              value={this.state.searchQuery}/>
+              errorText={errorMessage}
+              onChange={this.setSearchQuery}
+              value={searchQuery}/>
 
             <IconButton
               iconStyle={styles.iconStyle}
-              onClick={this.searchVideo.bind(this)}>
+              onClick={this.searchVideo}>
               <ActionSearch  />
             </IconButton>
           </div>
 
           { isContentVisible && <div>
             <div className="content">
-              <h2>Resultados para: {this.state.resultTitle}</h2>
+              <h2>Resultados para: {searchQuery}</h2>
 
               <div className="content-items">
                 {videosInfo.items.map(item => {
                   return(
                     <Card className="content-card" key={item.id.videoId}>
                       <CardMedia>
-                        <img className="card-image" src={item.snippet.thumbnails.high.url} alt="" />
+                        <img className="card-image" src={item.snippet.thumbnails.high.url} alt={`thumbnail of ${item.snippet.title}`} />
                       </CardMedia>
                       <CardTitle className="card-text" title={item.snippet.title} subtitle={item.snippet.channelTitle} />
                       <CardText className="card-text">{item.snippet.description}</CardText>
@@ -133,9 +131,9 @@ class Search extends Component {
             </div>
 
             <div className="pagination">
-              <FlatButton label="Prev" primary={true} onClick={this.prevPage} />
-              <Paper children={<div>{this.state.currentPage} de {this.state.totalPages}</div>} zDepth={2} />
-              <FlatButton label="Next" primary={true} onClick={this.nextPage} />
+              <FlatButton label="Prev" labelStyle={styles.button} primary={true} onClick={this.prevPage} />
+              <div className="pagination-indicator">{currentPage} de {totalPages}</div>
+              <FlatButton label="Next" labelStyle={styles.button} primary={true} onClick={this.nextPage} />
             </div>
           </div> }
         </div>
@@ -162,6 +160,9 @@ const styles = {
   hintStyle: {
     color: '#fff',
     fontSize: '18px'
+  },
+  button: {
+    color: '#fff'
   }
 };
 

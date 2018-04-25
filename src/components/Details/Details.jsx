@@ -1,24 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-
 import { fetchVideoDetails } from '../../actions/videosActions'
-
 import FlatButton from 'material-ui/FlatButton'
 import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card'
-
 import IconThumbUp from 'material-ui/svg-icons/action/thumb-up'
 import IconThumbDown from 'material-ui/svg-icons/action/thumb-down'
 import IconVisibility from 'material-ui/svg-icons/action/visibility'
 import IconNavigate from 'material-ui/svg-icons/image/navigate-before';
 
-import YoutubeAPI from '../../service/YoutubeAPI'
 import '../../assets/css/Details.css'
 
 class Details extends Component {
 
   componentDidMount() {
     const { fetchVideoDetails, match } = this.props
-
     fetchVideoDetails(match.params.id)
   }
 
