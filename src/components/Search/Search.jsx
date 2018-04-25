@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchVideos, fetchNextPage, fetchPrevPage } from '../../actions/videosActions'
-import { Link } from 'react-router-dom'
-import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card'
-import FlatButton from 'material-ui/FlatButton'
-import Paper from 'material-ui/Paper'
+import { fetchVideos } from '../../actions/videosActions'
+import SimpleCard from '../Card/Card'
+import Pagination from '../Pagination/Pagination'
 import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton';
 import ActionSearch from 'material-ui/svg-icons/action/search'
 import { red500, redA700 } from 'material-ui/styles/colors'
+
 
 import '../../assets/css/Search.css'
 
@@ -18,19 +17,8 @@ class Search extends Component {
 
     this.state = {
       searchQuery: '',
-      errorMessage: '',
-      currentPage: 1,
-      totalPages: 0
+      errorMessage: ''
     }
-  }
-
-  componentWillReceiveProps({ videosInfo }) {
-    const { pagination } = videosInfo
-    const { totalResults, resultsPerPage } = pagination
-
-    const totalPages = Math.floor(totalResults / resultsPerPage)
-
-    this.setState({ totalPages })
   }
 
   setSearchQuery = (event) => {
@@ -59,31 +47,9 @@ class Search extends Component {
     fetchVideos(searchQuery)
   }
 
-  prevPage = () => {
-    const { searchQuery } = this.state
-    const { videosInfo, fetchPrevPage } = this.props
-
-    fetchPrevPage(videosInfo.prevPageToken, searchQuery)
-
-    this.setState(prevState => {
-      return { currentPage: prevState.currentPage - 1 }
-    })
-  }
-
-  nextPage = () => {
-    const { searchQuery } = this.state
-    const { videosInfo, fetchNextPage } = this.props
-
-    fetchNextPage(videosInfo.nextPageToken, searchQuery)
-
-    this.setState(prevState => {
-      return { currentPage: prevState.currentPage + 1 }
-    })
-  }
-
   render() {
     const { videosInfo } = this.props
-    const { errorMessage, searchQuery, currentPage, totalPages } = this.state
+    const { errorMessage, searchQuery } = this.state
     const isContentVisible = videosInfo.items.length > 0
 
     return (
@@ -115,26 +81,13 @@ class Search extends Component {
               <div className="content-items">
                 {videosInfo.items.map(item => {
                   return(
-                    <Card className="content-card" key={item.id.videoId}>
-                      <CardMedia>
-                        <img className="card-image" src={item.snippet.thumbnails.high.url} alt={`thumbnail of ${item.snippet.title}`} />
-                      </CardMedia>
-                      <CardTitle className="card-text" title={item.snippet.title} subtitle={item.snippet.channelTitle} />
-                      <CardText className="card-text">{item.snippet.description}</CardText>
-                      <CardActions>
-                        <FlatButton label="Detalhes" containerElement={<Link to={`/Details/${item.id.videoId}`}></Link>}/>
-                      </CardActions>
-                    </Card>
+                    <SimpleCard key={item.id.videoId} video={item}/>
                   )
                 })}
               </div>
             </div>
 
-            <div className="pagination">
-              <FlatButton label="Prev" labelStyle={styles.button} primary={true} onClick={this.prevPage} />
-              <div className="pagination-indicator">{currentPage} de {totalPages}</div>
-              <FlatButton label="Next" labelStyle={styles.button} primary={true} onClick={this.nextPage} />
-            </div>
+            <Pagination query={searchQuery} />
           </div> }
         </div>
       </div>
@@ -173,7 +126,5 @@ function mapStateToProps({ videosInfo }){
 }
 
 export default connect(mapStateToProps,{
-  fetchVideos,
-  fetchNextPage,
-  fetchPrevPage
+  fetchVideos
 })(Search);
