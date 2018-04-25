@@ -49,3 +49,15 @@ export const fetchPage = (token, query) => {
     console.error(`Erro ao paginar`)
   })
 }
+
+export const fetchVideoDetails = (id) => {
+  return axios.get(`${API}/videos`, {
+    params: {
+      id,
+      part: 'snippet,statistics,player',
+      key: API_KEY
+    }
+  }).then(res => {
+    return res
+  })
+}

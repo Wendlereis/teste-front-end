@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+
+import { fetchVideoDetails } from '../../actions/videosActions'
 
 import FlatButton from 'material-ui/FlatButton'
 import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card'
@@ -12,23 +15,24 @@ import YoutubeAPI from '../../service/YoutubeAPI'
 import '../../assets/css/Details.css'
 
 class Details extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      item: null
-    }
-  }
 
   componentDidMount() {
-    new YoutubeAPI().searchById(this.props.match.params.id).then(res => {
-      this.setState({ item: res })
-    })
+    const { fetchVideoDetails, match } = this.props
+
+    fetchVideoDetails(match.params.id)
   }
 
   render() {
-    return (
-      this.state.item !== null ? (
+    const { videoDetails } = this.props
+    const videoItem = videoDetails[0]
+
+    if(videoItem === undefined) {
+      return (
+        <div>Dados não encontrados</div>
+      )
+    }
+    else {
+      return (
         <div id="details">
           <div className="title">
             <FlatButton
@@ -44,39 +48,37 @@ class Details extends Component {
             <Card className="content-card">
               <CardMedia>
                 <div
-                  dangerouslySetInnerHTML={{__html: this.state.item.player.embedHtml }}>
+                  dangerouslySetInnerHTML={{__html: videoItem.player.embedHtml }}>
                 </div>
               </CardMedia>
 
               <CardTitle
                 className="card-text"
-                title={this.state.item.snippet.title}
-                subtitle={this.state.item.snippet.channelTitle} />
+                title={videoItem.snippet.title}
+                subtitle={videoItem.snippet.channelTitle} />
 
               <CardText className="card-description">
-                {this.state.item.snippet.description}
+                {videoItem.snippet.description}
               </CardText>
 
               <CardText className="card-statistics">
                 <div className="card-statistics-item">
-                  <IconVisibility /> {this.state.item.statistics.viewCount}
+                  <IconVisibility /> {videoItem.statistics.viewCount}
                 </div>
 
                 <div className="card-statistics-item">
-                  <IconThumbUp /> {this.state.item.statistics.likeCount}
+                  <IconThumbUp /> {videoItem.statistics.likeCount}
                 </div>
 
                 <div className="card-statistics-item">
-                  <IconThumbDown /> {this.state.item.statistics.dislikeCount}
+                  <IconThumbDown /> {videoItem.statistics.dislikeCount}
                 </div>
               </CardText>
             </Card>
           </div>
         </div>
-      ) : (
-        <div>Dados não encontrados</div>
       )
-    );
+    }
   }
 }
 
@@ -86,4 +88,12 @@ const styles = {
   }
 }
 
-export default Details;
+function mapStateToProps({ videoDetails }) {
+  return {
+    videoDetails
+  }
+}
+
+export default connect(mapStateToProps, {
+  fetchVideoDetails
+})(Details);
