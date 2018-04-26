@@ -20,6 +20,12 @@ class Search extends Component {
     }
   }
 
+  handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      this.searchVideo()
+    }
+  }
+
   setSearchQuery = (event) => {
     let searchQuery = event.target.value
 
@@ -64,6 +70,7 @@ class Search extends Component {
               underlineFocusStyle={styles.underlineFocusStyle}
               errorText={errorMessage}
               onChange={this.setSearchQuery}
+              onKeyPress={this.handleKeyPress}
               value={searchQuery}/>
 
             <IconButton
