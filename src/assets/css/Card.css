@@ -1,0 +1,12 @@
+.content-card {
+  margin: 10px;
+  width: 300px;
+}
+
+.card-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 250px;
+}
+

@@ -36,3 +36,15 @@ export const fetchPrevPage = (token, query) => {
       })
   }
 }
+
+export const fetchVideoDetails = (id) => {
+  return (dispatch) => {
+    videosIntegrations.fetchVideoDetails(id)
+      .then((videoDetails) => {
+        dispatch({
+          type: ActionTypes.FETCH_VIDEO_DETAILS,
+          videoDetails: videoDetails.data.items
+        })
+      })
+  }
+}
