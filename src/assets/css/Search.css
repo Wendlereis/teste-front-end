@@ -22,27 +22,6 @@
   flex-flow: wrap;
 }
 
-#search .content-card {
-  margin: 10px;
-  width: 300px;
-}
-
-#search .card-image {
-  max-height: 225px;
-}
-
-#search .card-text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 250px;
-}
-
-#search .content h2 {
-  text-transform: uppercase;
-  font-weight: 400;
-}
-
 .searchbar-button {
   margin: 5px;
 }
@@ -53,7 +32,8 @@
 }
 
 .pagination-indicator {
-  padding: 20px;
+  padding: 8px 0;
+  margin: 0 15px;
 }
 
 @media (max-width: 684px) {
