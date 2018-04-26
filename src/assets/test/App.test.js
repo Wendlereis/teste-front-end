@@ -1,19 +1,15 @@
-import YoutubeAPI from '../../service/YoutubeAPI'
-import { shallow, mount, render } from 'enzyme'
+import React from 'react'
+import { configure, shallow, mount, render } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
 
-it('Call api to search videos by name', () => {
-  let data = new YoutubeAPI().search('icasei').then(res => {
-    console.log('AQUI',res)
-    return res
+import Search from '../../components/Search/Search'
+
+configure({ adapter: new Adapter() })
+
+test('<Search />', () => {
+  it('Should render without throwing any error', () => {
+    const wrapper = shallow(<Search />)
+
+    expect(wrapper.find('.search')).to.have.length(1)
   })
-
-  expect(data).toBeDefined()
-})
-
-it('Call api to search a video by its id', () => {
-  let data = new YoutubeAPI().searchById('GgUSmu1yMS4').then(res => {
-    return res
-  })
-
-  expect(data).toBeDefined()
 })
