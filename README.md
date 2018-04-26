@@ -5,31 +5,35 @@ O Youtube client funciona como uma versão lite do Youtube, busque pelos seus vi
 
 ## Tecnologias
 
-- ReactJs
+- ReactJs/Redux
 - Youtube Data Api v3
 - Material-UI
+- Enzyme e Jest
 
 ## Como executar?
 
-### Compilando e rodando
+### Compilando e Rodando
 ```
+    # baixe o projeto
     git clone https://github.com/Wendlereis/teste-front-end.git
     cd teste-front-end
 ```
 ```
-    npm install &&  npm start
-    or
-    yarn install && yarn start
+    # compile
+    npm install
+    npm start
 ```
 
-Finalmente acesse:
-
  ```
-    localhost:3000
+    # acesse
+    localhost:3000*
+
+    *Acesse pelo seu dispositivo movel utilizando o chrome mobile e adicione a sua tela inicial para
+    experimentar a versão PWA do projeto
 ```
 
 ### Executando testes
 
 ```
-    npm test or yarn test
+    npm test
 ```
