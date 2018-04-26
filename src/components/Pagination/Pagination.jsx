@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { fetchNextPage, fetchPrevPage } from '../../actions/videosActions'
 import FlatButton from 'material-ui/FlatButton'
+import IconBefore from 'material-ui/svg-icons/image/navigate-before'
+import IconNext from 'material-ui/svg-icons/image/navigate-next'
 
 class Pagination extends Component {
   constructor(props) {
@@ -56,9 +58,9 @@ class Pagination extends Component {
 
     return (
       <div className="pagination">
-        <FlatButton label="Prev" labelStyle={styles.button} primary={true} onClick={this.prevPage} />
+        <FlatButton children={<IconBefore style={styles.button}/>} onClick={this.prevPage} />
         <div className="pagination-indicator">{currentPage} de {totalPages}</div>
-        <FlatButton label="Next" labelStyle={styles.button} primary={true} onClick={this.nextPage} />
+        <FlatButton children={<IconNext style={styles.button}/>} onClick={this.nextPage} />
       </div>
     );
   }
@@ -66,7 +68,8 @@ class Pagination extends Component {
 
 const styles = {
   button: {
-    color: '#fff'
+    color: '#ffffff',
+    paddingTop: 6
   }
 }
 
